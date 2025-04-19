@@ -2,7 +2,7 @@
 import { Sidebar } from "@/components/sidebar";
 import { useEffect, useCallback, useState } from "react";
 import Link from "next/link";
-import { useCgpaStore } from "./[id]/page";
+import { useCgpaStore } from "@/app/store/useCgpaStore/page";
 
 export default function ProfilePage() {
     const [usn, setUsn] = useState<string>("");
