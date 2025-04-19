@@ -2,6 +2,11 @@
 import { useParams } from "next/navigation"
 import { useEffect, useCallback,useState } from "react"
 type SemesterMarks = Record<string, number | undefined>;
+type otherType={
+    usn:string,
+    _id:string,
+    sem:number
+}
 export default function UserPage(){
     const { id } = useParams();
     const [ sem1, setSem1 ] = useState<SemesterMarks | string>({})
@@ -15,7 +20,7 @@ export default function UserPage(){
         if(!response.ok)
             throw new Error("Failed to fetch");
         const data=await response.json();
-        const otherUser=data.find((val:any)=>val.usn===id)
+        const otherUser=data.find((val:otherType)=>val.usn===id)
         setSem1(otherUser.subject.find((val:SemesterMarks)=>val.sem===1) || "No details")
         setSem2(otherUser.subject.find((val:SemesterMarks)=>val.sem===2) || "No details")
         setSem3(otherUser.subject.find((val:SemesterMarks)=>val.sem===3) || "No details") 
