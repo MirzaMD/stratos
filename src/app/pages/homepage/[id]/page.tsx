@@ -16,11 +16,9 @@ export default function UserPage(){
             throw new Error("Failed to fetch");
         const data=await response.json();
         const otherUser=data.find((val:any)=>val.usn===id)
-        console.log(otherUser.subject);
-        console.log(otherUser.subject.find((val:any)=>val.sem===1))
-        setSem1(otherUser.subject.find((val:any)=>val.sem===1) || "No details")
-        setSem2(otherUser.subject.find((val:any)=>val.sem===2) || "No details")
-        setSem3(otherUser.subject.find((val:any)=>val.sem===3) || "No details") 
+        setSem1(otherUser.subject.find((val:SemesterMarks)=>val.sem===1) || "No details")
+        setSem2(otherUser.subject.find((val:SemesterMarks)=>val.sem===2) || "No details")
+        setSem3(otherUser.subject.find((val:SemesterMarks)=>val.sem===3) || "No details") 
   },[])
   useEffect(()=>{
     otherProfile();

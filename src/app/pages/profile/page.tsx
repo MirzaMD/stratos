@@ -4,6 +4,13 @@ import { useEffect, useCallback, useState } from "react";
 import Link from "next/link";
 import { useCgpaStore } from "@/app/store/useCgpaStore/page";
 
+type ProfileType={
+    _id:string,
+    usn:string,
+    pic:string,
+    fName:string,
+    lName:string
+}
 export default function ProfilePage() {
     const [usn, setUsn] = useState<string>("");
     const [fName, setFName] = useState<string>("");
@@ -21,7 +28,7 @@ export default function ProfilePage() {
         const res = await fetch("/api/profile");
         if (!res.ok) throw new Error("Failed to load the details");
 
-        const data: any[] = await res.json();
+        const data:ProfileType[]= await res.json();
         const userDetails = data.find((item) => item.usn === storedUsn);
 
         if (!userDetails) {

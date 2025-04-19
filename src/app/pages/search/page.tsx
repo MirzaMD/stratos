@@ -41,7 +41,8 @@ export default function SearchPage(){
      <div className={`flex justify-center items-center h-full w-full`}>
         {profile && (
             <div key={profile._id} className={`mt-4`}>
-             <Link href={`/pages/homepage/${profile.usn}`}><img src={profile.pic || "signup.jpg"} className={`h-[140px] rounded-3xl`}/></Link>
+             <Link href={`/pages/homepage/${profile.usn}`}><img src={profile.pic || "signup.jpg"} alt="profile"
+             className={`h-[140px] rounded-3xl`}/></Link>
              <h1 className={`text-white`}>{profile.fName} { profile.lName} </h1>
             </div>    
         )}

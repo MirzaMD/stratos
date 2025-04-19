@@ -3,14 +3,6 @@ import { useEffect, useCallback, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCgpaStore } from "@/app/store/useCgpaStore/page";
 type SemesterMarks = Record<string, number | undefined>;
-
-type Store = {
-  sgpas: Record<number, number | null>;
-  cgpa: number | null;
-  setSgpa: (sem: number, sgpa: number) => void;
-  setCgpa: (cgpa: number) => void;
-};
-
 export default function Marks() {
   const { id } = useParams();
   const semesterId = Number(id);
@@ -18,7 +10,11 @@ export default function Marks() {
   const [noMarks, setNoMarks] = useState<boolean>(false);
   const { setSgpa } = useCgpaStore();
   const [sgpa, setSgpaState] = useState<number | null>(null);
-
+type UserType={
+  usn:string,
+  _id:string,
+  sem:number
+}
   function getGradePoint(marks: number): number {
     if (marks >= 90) return 10;
     if (marks >= 80) return 9;
@@ -30,54 +26,54 @@ export default function Marks() {
     return 0;
   }
 
-  function calculateSgpa(marks: any, sem: number): number | null {
+  function calculateSgpa(marks:SemesterMarks, sem: number): number | null {
     let totalPoints = 0;
     let totalCredits = 0;
 
     if (sem === 1) {
       totalCredits = 20;
       totalPoints =
-        getGradePoint(marks.mathematics) * 4 +
-        getGradePoint(marks.physics) * 4 +
-        getGradePoint(marks.pop) * 3 +
-        getGradePoint(marks.electronics) * 3 +
-        getGradePoint(marks.cyb) * 3 +
-        getGradePoint(marks.ico) * 1 +
-        getGradePoint(marks.idt) * 1 +
-        getGradePoint(marks.english) * 1;
+        getGradePoint(marks.mathematics?? 0) * 4 +
+        getGradePoint(marks.physics?? 0) * 4 +
+        getGradePoint(marks.pop?? 0) * 3 +
+        getGradePoint(marks.electronics?? 0) * 3 +
+        getGradePoint(marks.cyb?? 0) * 3 +
+        getGradePoint(marks.ico?? 0) * 1 +
+        getGradePoint(marks.idt?? 0) * 1 +
+        getGradePoint(marks.english?? 0) * 1;
     } else if (sem === 2) {
       totalCredits = 20;
       totalPoints =
-        getGradePoint(marks.mathematics) * 4 +
-        getGradePoint(marks.chemistry) * 4 +
-        getGradePoint(marks.caed) * 3 +
-        getGradePoint(marks.plc) * 3 +
-        getGradePoint(marks.esc) * 3 +
-        getGradePoint(marks.sfh) * 1 +
-        getGradePoint(marks.english) * 1 +
-        getGradePoint(marks.kannada) * 1;
+        getGradePoint(marks.mathematics?? 0) * 4 +
+        getGradePoint(marks.chemistry?? 0) * 4 +
+        getGradePoint(marks.caed?? 0) * 3 +
+        getGradePoint(marks.plc?? 0) * 3 +
+        getGradePoint(marks.esc?? 0) * 3 +
+        getGradePoint(marks.sfh?? 0) * 1 +
+        getGradePoint(marks.english?? 0) * 1 +
+        getGradePoint(marks.kannada?? 0) * 1;
     } else if (sem === 3) {
       totalCredits = 21;
       totalPoints =
-        getGradePoint(marks.mathematics) * 4 +
-        getGradePoint(marks.ddco) * 4 +
-        getGradePoint(marks.os) * 4 +
-        getGradePoint(marks.dsa) * 3 +
-        getGradePoint(marks.cpp) * 3 +
-        getGradePoint(marks.dsalab) * 1 +
-        getGradePoint(marks.excel) * 1 +
-        getGradePoint(marks.scr) * 1;
+        getGradePoint(marks.mathematics?? 0) * 4 +
+        getGradePoint(marks.ddco?? 0) * 4 +
+        getGradePoint(marks.os?? 0) * 4 +
+        getGradePoint(marks.dsa?? 0) * 3 +
+        getGradePoint(marks.cpp?? 0) * 3 +
+        getGradePoint(marks.dsalab?? 0) * 1 +
+        getGradePoint(marks.excel?? 0) * 1 +
+        getGradePoint(marks.scr?? 0) * 1;
     } else if (sem === 4) {
       totalCredits = 20;
       totalPoints =
-        getGradePoint(marks.ada) * 4 +
-        getGradePoint(marks.java) * 4 +
-        getGradePoint(marks.dbms) * 4 +
-        getGradePoint(marks.dms) * 3 +
-        getGradePoint(marks.bio) * 2 +
-        getGradePoint(marks.uhv) * 1 +
-        getGradePoint(marks.adalab) * 1 +
-        getGradePoint(marks.lat) * 1;
+        getGradePoint(marks.ada?? 0) * 4 +
+        getGradePoint(marks.java?? 0) * 4 +
+        getGradePoint(marks.dbms?? 0) * 4 +
+        getGradePoint(marks.dms?? 0) * 3 +
+        getGradePoint(marks.bio?? 0) * 2 +
+        getGradePoint(marks.uhv?? 0) * 1 +
+        getGradePoint(marks.adalab?? 0) * 1 +
+        getGradePoint(marks.lat?? 0) * 1;
     } else {
       return null;
     }
@@ -96,10 +92,10 @@ export default function Marks() {
       if (!res.ok) throw new Error("Failed to fetch");
 
       const data = await res.json();
-      const user = data.find((val: any) => val.usn === storedUsn);
+      const user = data.find((val: UserType) => val.usn === storedUsn);
       if (!user) throw new Error("User not found");
 
-      const marks = user.subject.find((val: any) => Number(val.sem) === semesterId);
+      const marks = user.subject.find((val: UserType) => Number(val.sem) === semesterId);
       if (!marks) {
         setNoMarks(true);
         setScores({});
@@ -123,7 +119,7 @@ export default function Marks() {
   return (
     <div className="text-white flex flex-col text-lg sm:text-4xl font-serif justify-center items-center gap-y-4 bg-[#00000086] h-screen">
       {noMarks ? (
-        <h1>Haven't entered the marks for this semester yet...</h1>
+        <h1>Marks are not entered yet.</h1>
       ) : (
         <>
           {Object.entries(scores).map(([key, val]) => (
