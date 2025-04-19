@@ -1,4 +1,4 @@
-// src/store/useCgpaStore.ts
+"use client"
 import { create } from "zustand";
 
 type Store = {

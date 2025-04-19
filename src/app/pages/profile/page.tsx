@@ -2,7 +2,7 @@
 import { Sidebar } from "@/components/sidebar";
 import { useEffect, useCallback, useState } from "react";
 import Link from "next/link";
-import { useCgpaStore } from "@/app/store/useCgpaStore/page";
+import { useCgpaStore } from "@/store/useCgpaStore/page";
 
 type ProfileType={
     _id:string,

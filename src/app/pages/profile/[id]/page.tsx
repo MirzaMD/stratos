@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useCallback, useState } from "react";
 import { useParams } from "next/navigation";
-import { useCgpaStore } from "@/app/store/useCgpaStore/page";
+import { useCgpaStore } from "@/store/useCgpaStore/page";
 type SemesterMarks = Record<string, number | undefined>;
 export default function Marks() {
   const { id } = useParams();
